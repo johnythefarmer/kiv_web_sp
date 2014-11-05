@@ -1,4 +1,4 @@
-kiw_web_sp
+kiv_web_sp
 ==========
 
 Semestrální práce z předmětu KIV/WEB
