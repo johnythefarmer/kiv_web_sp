@@ -17,6 +17,7 @@ nav{
   padding-left:0px
 }
 
+
 #file-choose{
   padding-bottom:40px;
 }
@@ -70,10 +71,16 @@ nav{
   article{
     width:720px;
   }
+  
   nav.navbar{
   padding-right:10px;
+  }
 }
-  
+
+@media (min-width: 400px){
+  .error-img{
+    width:200px;
+  }
 }
 
 .dropdown-menu{
@@ -107,6 +114,7 @@ h1.white{
 }
 article{
   margin-top:80px;
+  margin-bottom:80px;
   text-align:center;
 }
 

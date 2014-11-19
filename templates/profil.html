@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang='cs'>
+  <head>
+    <title>Profil</title>
+    <meta charset='utf-8'>
+    <meta name='description' content=''>
+    <meta name='keywords' content=''>
+    <meta name='author' content=''>
+    <meta name='robots' content='all'>
+    <!-- <meta http-equiv='X-UA-Compatible' content='IE=edge'> -->
+    <link href='/public/img/logo.svg' rel='shortcut icon' type='image/png'>
+    
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/style.css" rel="stylesheet">
+  </head>
+  <body>      
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/"><img class='navbar-brand' src = "/public/img/logo.svg" alt = "logo" /></a><a id="brand" class="navbar-brand" href="/">TrophyShare</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/">Úvod</a></li>
+            <li><a href="/top">TOP 10</a></li>
+              {% if data.isAdmin == true %}
+              <li><a href="/admin">Administrace</a></li>
+              {% endif %}
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="/public/img/profile-pic/{{data.uData.img}}" class="profile-image" /> {{data.uData.nick}} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/profile">Profil</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/trophy">Moje úlovky</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/mo">Moje MO</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/logout">Odhlásit se</a></li>   
+                </ul>
+              </li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+    </nav>
+    <article>
+        <div id="profil">
+            <img class="img-responsive thumbnail" src="/public/img/profile-pic/{{data.uData.img}}"/>
+            <h2>{{data.uData.nick}} 
+                {% if data.canEdit == true %}
+                <a href="/profile/edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                {% endif %}
+            
+            </h2>
+            <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td><b>Jméno</b></td>
+                      <td>{{data.uData.firstName}}</td>
+                        <td><b>Příjmení</b></td>
+                      <td>{{data.uData.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Web</b></td>
+                      <td><a href="{{data.uData.web}}">{{data.uData.web}}</a></td>
+                        <td><b>Email</b></td>
+                      <td>{{data.uData.email}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><b>Místní organizace</b></td>
+                        <td colspan="2"><a href="/mo/id/{{data.uData.moId}}">{{data.uData.mo}}</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+            <p><a href="/trophy/id/{{data.uData.id}}">Všechny úlovky</a></p>
+            <h3>Nejlepší úlovek</h3>
+            {% import "trophy_macro.html" as trophyMac %}
+            {{trophyMac.trophyNormal(data.trophy)}}
+        </div>
+        
+    </article>
+    <footer>
+      <p class="white" id = "footer-text">Created by Jan Dvorak</p>
+    </footer>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="public/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -2,13 +2,13 @@
     <div class="trophy row">
             <h3>{{trophy.rod}} {{trophy.druh}} - {{trophy.velikost}}cm</h3>
             
-            <img src="public/img/trophy/{{trophy.img}}" class="col-md-4 thumbnail img-responsive" />
+            <img src="/public/img/trophy/{{trophy.img}}" class="col-md-4 thumbnail img-responsive" />
             <div class="col-md-8">
                 <table class="table table-striped">
                   <tbody>
                     <tr>
                       <td>Lovec</td>
-                      <td><span class="username"><a href="">{{trophy.lovec}}</a></span></td>
+                      <td><span class="username"><a href="/profile/id/{{trophy.lovecId}}">{{trophy.lovec}}</a></span></td>
                       <td>Datum</td>
                       <td>{{trophy.datum}}</td>
                     </tr>

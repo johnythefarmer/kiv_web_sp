@@ -29,19 +29,20 @@
             <li><a href="/upload">Nahrát úlovek</a></li>
             <li><a href="/">Úvod</a></li>
             <li><a href="/top">TOP 10</a></li>
+            {% if data.isAdmin == true %}
             <li><a href="/admin">Administrace</a></li>
+            {% endif %}
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="public/img/profile-pic/{{data.uData.img}}" class="profile-image" /> {{data.uData.nick}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/profil">Profil</a></li>
+                    <li><a href="/profile">Profil</a></li>
                     <li class="divider"></li>
                     <li><a href="/trophy">Moje úlovky</a></li>
                     <li class="divider"></li>
                     <li><a href="/mo">Moje MO</a></li>
                     <li class="divider"></li>
-                    <li><a href="/logout">Odhlásit se</a></li>
-                    
+                    <li><a href="/logout">Odhlásit se</a></li>   
                 </ul>
               </li>
           </ul>

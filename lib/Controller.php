@@ -2,7 +2,8 @@
     class Controller{
         protected $view;
         protected $model;
-        protected $logged;
+        protected $logged = false;
+        protected $isAdmin = false;
         protected $userData;
         
         public function __construct(){
@@ -11,15 +12,16 @@
                 $nick = $_SESSION["nick"];
                 $pwd = $_SESSION["pwd"];
                 
-                $uMod = new UserModel();
-                
-                $this->logged = $uMod->isLogged($nick,$pwd);
+                $this->model['user'] = new UserModel();
+                $id = $this->model['user']->checkLogin($nick,$pwd);
+                $this->logged = ($id != -1);
             }else {
                 $this->logged = false;
             }
             
             if($this->logged){
-                $this->userData = $uMod->getUserData();
+                $this->userData = $this->model['user']->getUserData($id);
+                $this->isAdmin = $this->model['user']->isAdmin($id);
             }
         }    
         
