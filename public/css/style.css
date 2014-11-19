@@ -1,0 +1,165 @@
+*{
+  margin: 0px auto;
+  padding: 0px;
+}
+nav{
+  height:50px;
+}
+.red{
+  color:red;
+}
+
+.container{
+  width:100%;
+}
+
+#brand{
+  padding-left:0px
+}
+
+#file-choose{
+  padding-bottom:40px;
+}
+
+#register-form{
+  max-width:300px;
+  text-align:left;
+  margin-bottom:60px;
+}
+
+@media (max-width: 767px){
+  .navbar-form{
+    margin-top:0px;
+    padding-right:15px;
+    background-color:white;
+  }
+
+  
+  #navbar{
+    background-color:black;
+    text-align:left;
+  }
+  
+  #navbar a{
+    width:100%;
+  }
+  nav.navbar{
+    padding-right:0px;
+  }
+  img.col-md-4{
+    padding:0px;
+  }
+  .col-md-4 img{
+    max-width:100%;
+  }
+}
+
+#profil{
+  margin-bottom:65px;
+}
+
+#profil img{
+  max-width:200px;
+}
+
+.username a{
+  color:grey;
+}
+
+@media (min-width: 768px){
+  article{
+    width:720px;
+  }
+  nav.navbar{
+  padding-right:10px;
+}
+  
+}
+
+.dropdown-menu{
+  text-align:center;
+  min-width:130px;
+}
+
+img.profile-image{
+  width:30px;
+  margin-right:5px;
+}
+
+.navbar-nav > li > a.dropdown-toggle{
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+.navbar-nav > li > a{
+  padding-top:15px;
+  padding-bottom:15px;
+}
+
+img.navbar-brand{
+  padding:7px;
+}
+
+h1.white{
+  margin:0;
+  margin-top:5px;
+  color:white;
+}
+article{
+  margin-top:80px;
+  text-align:center;
+}
+
+article .dropdown{
+  text-align:left;
+}
+.table{
+  text-align:center;
+  width:500px;
+}
+
+ul.nav{
+  float:right;
+}
+
+footer{
+  background-color:#101010;
+  text-align:right;
+  width:100%;
+  position:fixed;
+  bottom:0px;
+  height:25px;
+  padding-top:5px;
+  padding-bottom:2em;
+}
+
+.trophy{
+  margin-bottom:50px;
+}
+
+.glyphicon{
+  font-size:18pt;
+}
+
+.row button{
+  width:50px;
+  height:50px;
+  padding:12px;
+}
+
+.row{
+  margin-left:0px;
+  margin-right:0px;
+}
+
+.row table{
+  margin-top:20px;
+}
+
+#footer-text{
+  margin-right:10px;
+}
+
+article p{
+  padding:10px;
+}

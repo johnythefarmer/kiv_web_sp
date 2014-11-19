@@ -1,0 +1,31 @@
+{% macro trophyNormal(trophy) %}
+    <div class="trophy row">
+            <h3>{{trophy.rod}} {{trophy.druh}} - {{trophy.velikost}}cm</h3>
+            
+            <img src="public/img/trophy/{{trophy.img}}" class="col-md-4 thumbnail img-responsive" />
+            <div class="col-md-8">
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Lovec</td>
+                      <td><span class="username"><a href="">{{trophy.lovec}}</a></span></td>
+                      <td>Datum</td>
+                      <td>{{trophy.datum}}</td>
+                    </tr>
+                    <tr>
+                      <td>Váha</td>
+                      <td>{{trophy.vaha}}kg</td>
+                      <td>Revír</td>
+                      <td>{{trophy.revir}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Trofejní koeficient</td>
+                        <td colspan="2">{{trophy.koef}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                <a href="">Toto se líbí {{trophy.like}} uživatelům</a>
+            </div>
+        </div>
+{% endmacro %}

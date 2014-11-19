@@ -1,31 +1,66 @@
 <?php
-    require_once 'lib/Controller.php';
-    require_once 'lib/View.php';
-    require_once 'config/conf.php';
+    function autoloader($class) {
+        $fileLib = 'lib/' . $class . '.php';
+        $fileCont = 'controller/' . $class . '.php';
+        $fileView = 'view/' . $class . '.php';
+        $fileConf = 'config/' . $class . '.php';
+        $fileModel = 'model/' . $class . '.php';
+        
+        if(file_exists($fileLib)){
+            require_once $fileLib;
+        } else if(file_exists($fileCont)){
+            require_once $fileCont;
+        }else if(file_exists($fileView)){
+            require_once $fileView;
+        }else if(file_exists($fileConf)){
+            require_once $fileConf;
+        }else if(file_exists($fileModel)){
+            require_once $fileModel;
+        }
+    }
+    session_start();
+    $_SESSION["nick"] = "user";
+    $_SESSION["pwd"] = "pwd";
+
+
+    spl_autoload_register('autoloader');
+  
     $url = isset($_GET['url'])? $_GET['url'] : 'index';
     $url = rtrim($url, '/');
     $url = explode('/',$url);
     
     $file = 'controller/' . $url[0] . '.php';
     
-    if(file_exists($file)){
-        require_once($file);
-    }else {
-        require_once('controller/Error.php');
-        $controller = new Error.php;
+    if(!file_exists($file)){
+        $controller = new Error("Zadaná stránka neexistuje!");
         $controller->index();
         return false;
     }
     
     $controller = new $url[0];
     if(isset($url[2])){
-        $controller->$url[1]($url[2]);
-        return false;
-    }else {
-        if(isset($url[1])){
-            $controller->$url[1]();
-            return false;
+        if(method_exists($controller, $url[1])){
+            $controller->$url[1]($url[2]);
+        }else {
+            $controller = new Error("Zadaná stránka neexistuje");
+            $controller->index();
         }
+        return false;
+    }else if(isset($url[1])){
+            if (method_exists($controller, $url[1])){
+                $reflection = new ReflectionMethod($controller, $url[1]);
+                if($reflection->isPublic()){
+                    $controller->$url[1]();
+                }else {
+                    $controller = new Error("Zadaná stránka neexistuje");
+                    $controller->index();
+                }
+            } else {
+                $controller = new Error("Zadaná stránka neexistuje");
+                $controller->index();
+            }
+            return false;
+
     }
     
     $controller->index();
