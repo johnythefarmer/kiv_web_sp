@@ -1,0 +1,95 @@
+{% extends "basic_template.html" %}
+
+{% block title %}Profil{% endblock %}
+
+
+{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<article>
+        <h2>TOP 10</h2>
+        <div ng-app="ThrophyApp" ng-controller="TrophyController">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                Časový rozsah
+                <span class="caret"></span>
+            </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="day()">Den</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="week()">Týden</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="month()">Měsíc</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="year()">Rok</a></li>
+          </ul>
+        </div>
+        
+        
+        
+            <div ng-repeat="x in trophies">
+                <div class="trophy row">
+                    <a href = "/trophy/id/{{ '{{x.id}}' }}" ><h3>{{ '{{x.index + 1}}. místo: {{x.rod}} {{x.druh}} - {{x.velikost}}cm' }}</h3></a>
+
+                    <img ng-src="/public/img/trophy/{{ '{{x.img}}' }}" class="col-md-4 thumbnail img-responsive" />
+                    <div class="col-md-8">
+                        <table class="table table-striped">
+                          <tbody>
+                            <tr>
+                              <td>Lovec</td>
+                              <td><span class="username"><a href="/user/id/{{ '{{x.lovecId}}' }}">{{ '{{x.lovec}}' }}</a></span></td>
+                              <td>Datum</td>
+                              <td>{{ '{{x.datum}}' }}</td>
+                            </tr>
+                            <tr>
+                              <td>Váha</td>
+                              <td>{{ '{{x.vaha}}' }}kg</td>
+                              <td>Revír</td>
+                              <td>{{ '{{x.revir}}' }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Trofejní koeficient</td>
+                                <td colspan="2">{{ '{{x.koef}}' }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button type="button" ng-click="like(x.id, x.index)"class="btn btn-primary"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                        <span>Toto se líbí {{ '{{trophies[x.index].like}}' }} uživatelům</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <script>
+                angular.module('ThrophyApp', [])
+                    .controller('TrophyController', ['$scope', '$http', function($scope, $http) {
+                        $scope.trophies = [];
+                        
+                        $scope.day = function() {
+                            document.getElementById("dropdownMenu1").innerHTML="Den <span class='caret'></span>";
+                            $http.post('/lib/topTrophy.php', {'duration' : 'day'}).success(function(response) {/*alert(response);*/$scope.trophies = response;});
+                        };
+                        $scope.week = function() {
+                            document.getElementById("dropdownMenu1").innerHTML="Týden <span class='caret'></span>";
+                            $http.post('/lib/topTrophy.php', {'duration' : 'week'}).success(function(response) {$scope.trophies = response;});
+                        };
+                        $scope.month = function() {
+                            document.getElementById("dropdownMenu1").innerHTML="Měsíc <span class='caret'></span>";
+                            $http.post('/lib/topTrophy.php', {'duration' : 'month'}).success(function(response) {$scope.trophies = response;});
+                        };
+                        $scope.year = function() {
+                            document.getElementById("dropdownMenu1").innerHTML="Rok <span class='caret'></span>";
+                            $http.post('/lib/topTrophy.php', {'duration' : 'year'}).success(function(response) {$scope.trophies = response;});
+                        };
+						
+						$scope.like = function($trophyId, $index){
+							$http.post('/lib/like.php',{'trophyId' : $trophyId})
+								.success(function (response){
+								$scope.trophies[$index].like = response.likeCount;
+							});						
+						}
+                    }]);
+            </script>
+        </div>
+
+    </article>
+{% endblock %}

@@ -7,12 +7,15 @@
         protected $userData;
         
         public function __construct(){
-            @session_start();
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            $this->model['user'] = new UserModel();
             if(isset($_SESSION["nick"]) && isset($_SESSION["pwd"])){
                 $nick = $_SESSION["nick"];
                 $pwd = $_SESSION["pwd"];
                 
-                $this->model['user'] = new UserModel();
+                
                 $id = $this->model['user']->checkLogin($nick,$pwd);
                 $this->logged = ($id != -1);
             }else {

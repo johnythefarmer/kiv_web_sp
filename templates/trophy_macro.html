@@ -1,14 +1,14 @@
-{% macro trophyNormal(trophy) %}
+{% macro trophyNormal(trophy, userId) %}
     <div class="trophy row">
-            <h3>{{trophy.rod}} {{trophy.druh}} - {{trophy.velikost}}cm</h3>
+            <h3><a href = "/trophy/id/{{trophy.id}}">{{trophy.rod}} {{trophy.druh}} - {{trophy.velikost}}cm</a></h3>
             
-            <img src="/public/img/trophy/{{trophy.img}}" class="col-md-4 thumbnail img-responsive" />
+            <img src="/public/img/trophy/{{trophy.img}}" class="col-md-4 thumbnail img-responsive" alt ='Obrázek úlovku'/>
             <div class="col-md-8">
                 <table class="table table-striped">
                   <tbody>
                     <tr>
                       <td>Lovec</td>
-                      <td><span class="username"><a href="/profile/id/{{trophy.lovecId}}">{{trophy.lovec}}</a></span></td>
+                      <td><span class="username"><a href="/user/id/{{trophy.lovecId}}">{{trophy.lovec}}</a></span></td>
                       <td>Datum</td>
                       <td>{{trophy.datum}}</td>
                     </tr>
@@ -16,7 +16,7 @@
                       <td>Váha</td>
                       <td>{{trophy.vaha}}kg</td>
                       <td>Revír</td>
-                      <td>{{trophy.revir}}</td>
+                      <td><a href = "/mo/fishground/{{trophy.revirId}}">{{trophy.revir}}</a></td>
                     </tr>
                     <tr>
                         <td colspan="2">Trofejní koeficient</td>
@@ -24,8 +24,22 @@
                     </tr>
                   </tbody>
                 </table>
-                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
-                <a href="">Toto se líbí {{trophy.like}} uživatelům</a>
+                <span ng-controller="buttonCont{{trophy.id}}">
+                <button type="button" class="btn btn-primary" ng-click="like({{userId}},{{trophy.id}})"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                <span>Toto se líbí {{'{{likeCount}}'}} uživatelům</span>
+				</span>
             </div>
         </div>
+{% endmacro %}
+
+{% macro angularTrophy(trophy) %}
+	.controller('buttonCont{{trophy.id}}', ['$scope', '$http', function($scope, $http) {
+		$scope.likeCount = {{trophy.like}};
+		$scope.like = function($userId, $trophyId){
+			$http.post('/lib/like.php',{'trophyId' : $trophyId, 'userId' : $userId})
+			.success(function (response){
+				$scope.likeCount = response.likeCount;
+			});
+		}
+	}])
 {% endmacro %}

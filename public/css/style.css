@@ -17,12 +17,16 @@ nav{
   padding-left:0px
 }
 
+.alert{
+  text-align:left;
+}
+
 
 #file-choose{
   padding-bottom:40px;
 }
 
-#register-form{
+article form{
   max-width:300px;
   text-align:left;
   margin-bottom:60px;

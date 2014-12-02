@@ -1,0 +1,13 @@
+{% extends "trophies.html" %}
+
+{% block title %}Úlovky z revírů {{data.mo.nazev}}{% endblock %}
+
+
+{% block heading %}
+<h2>Úlovky z revírů {{data.mo.nazev}}</h2>
+        <img class="img-responsive thumbnail" src="/public/img/mo/{{data.mo.img}}"/>
+{% endblock %}
+
+{% block emptyTrophies %}
+	<span>Z této organizace ještě nebyl nahrán žádný úlovek.</span>
+{% endblock %}

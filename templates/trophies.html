@@ -1,0 +1,36 @@
+{% extends "basic_template.html" %}
+
+{% block title %}Úlovky uživatele {{data.uData.nick}}{% endblock %}
+
+
+{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <article>
+        <div id = "profil">
+			{% block heading %}
+			{% endblock %}
+        {% import "trophy_macro.html" as trophyMac %}
+        {% if data.trophies is empty %}
+			{% block emptyTrophies %}
+            
+			{% endblock %}
+        {% else%}
+        <span ng-app= "app">
+			{% for trophy in data.trophies %}
+				{{trophyMac.trophyNormal(trophy, data.user.id)}}
+			{% endfor %}
+			<script>
+			angular.module('app', [])
+			{% for trophy in data.trophies %}
+            {{trophyMac.angularTrophy(trophy)}}
+        	{% endfor %}
+			;
+		</script>
+		</span>
+		{% endif %}
+        </div>
+    </article>
+{% endblock %}

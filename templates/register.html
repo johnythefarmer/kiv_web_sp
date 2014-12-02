@@ -1,0 +1,86 @@
+{% extends "basic_not_logged.html" %}
+{% block title %}Registrace{% endblock %}
+{% block content %}
+    <article>
+        
+        <h2>Registrace</h2>
+        <form role="form" id="register-form" enctype="multipart/form-data" action="/register" method="POST">
+        <div class="form-group">
+          <label for="nickname">Přezdívka:<span class="red">*</span></label>
+          <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Zadejte přezdívku" required/>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:<span class="red">*</span></label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Zadejte email" required/>
+        </div>
+        <div class="form-group">
+          <label for="first-name">Jméno:</label>
+          <input type="text" class="form-control" id="first-name" name="first-name" placeholder="Zadejte jméno" />
+        </div>
+        <div class="form-group">
+          <label for="last-name">Příjmení:</label>
+          <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Zadejte příjmení" />
+        </div>
+        <div class="form-group">
+            <label for="pwd">Heslo (Alespoň 5 znaků)<span class="red">*</span></label>
+          <input type="password" class="form-control" id="pwd" name="pwd" pattern=".{5,}" placeholder="Zadejte heslo" required/>
+        </div>
+        <div class="form-group">
+          <label for="pwdCheck">Potvrdit heslo:<span class="red">*</span></label>
+          <input type="password" class="form-control" id="pwdCheck" name="pwdCheck" pattern=".{5,}" placeholder="Zadejte heslo znovu pro kontrolu" required/>
+        </div>
+        <div class="form-group">
+          <label for="web">Web:</label>
+          <input type="text" class="form-control" id="web" name="web" placeholder="Zadejte webovou stránku">
+        </div>
+        <div class="form-group">
+            <label for="mo">Místní organizace:<span class="red">*</span></label>
+            <select class="form-control" name="mo" id="mo">
+                {% for mo in data.mo %}
+                    <option value="{{mo.id}}">{{mo.nazev}}</option>
+                {% endfor %}
+                <!--<option value="1">MO Stod</option>
+                <option value="2">MO Plzeň</option>
+                <option value="3">MO Klatovy</option>
+                <option value="4">MO Sušice</option>-->
+            </select>    
+        </div>
+        <div class="form-group">
+          <label for="file-choose">Profilový obrázek: (v poměru 1:1)<span class="red">*</span></label>
+          <input type="file" class="form-control" id="file-choose" name="file-choose" required/>
+        </div>
+        <button type="submit" class="btn btn-primary">Zaregistrovat se</button>
+            <p><span class="red">*</span> Povinný údaj</p>
+        </form>
+        <script>
+            var password1 = document.getElementById('pwd');
+            var password2 = document.getElementById('pwdCheck');
+            var form = document.getElementById("register-form");
+			var form2 = document.getElementById("login-form2");
+            
+            $("#register-form").submit(function( event ) {
+                var p = document.createElement("input");
+                var pwd = document.getElementById('pwd');
+                    form.appendChild(p);
+                    p.name = "p";
+                    p.type = "hidden";
+                    p.value = md5(pwd.value);
+                    pwd.value = "";
+                    document.getElementById('pwdCheck').value = "";
+                return true;
+                
+            });
+			
+            var checkPasswordValidity = function() {
+                if (password1.value != password2.value) {
+                    password1.setCustomValidity('Zadaná hesla musejí být stejná.');
+                } else {
+                    password1.setCustomValidity('');
+                }        
+            };
+
+            password1.addEventListener('change', checkPasswordValidity, false);
+            password2.addEventListener('change', checkPasswordValidity, false);
+        </script>
+    </article>
+	  {% endblock %}

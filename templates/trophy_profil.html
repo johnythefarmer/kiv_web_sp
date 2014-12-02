@@ -1,0 +1,58 @@
+{% extends "basic_template.html" %}
+{% block title %}Profil úlovku{% endblock %}
+
+{% block content %}
+	<article>
+        <div class="trophy">
+            <h2>{{data.trophy.rod}} {{data.trophy.druh}} - {{data.trophy.velikost}}cm</h2>
+            
+            <img src="/public/img/trophy/{{data.trophy.img}}" class="thumbnail img-responsive" />
+            <div>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Lovec</td>
+                      <td><span class="username"><a href="/user/id/{{data.trophy.lovecId}}">{{data.trophy.lovec}}</a></span></td>
+                      <td>Datum</td>
+                      <td>{{data.trophy.datum}}</td>
+                    </tr>
+                    <tr>
+                      <td>Váha</td>
+                      <td>{{data.trophy.vaha}}kg</td>
+                      <td>Revír</td>
+                      <td>{{data.trophy.revir}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Trofejní koeficient</td>
+                        <td colspan="2">{{data.trophy.koef}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+            <div>
+            <h2>Uživatelé, kterým se tento úlovek líbí:</h2>
+				{% if data.likes is empty %}
+					<span>Tento úlovek se zatím nikomu nelíbí.</span>
+				{% else %}
+            <table class = "table table-striped">
+                <tbody>
+					
+                    <tr>
+                        <td><strong>Přezdívka</strong></td>
+                        <td><strong>Čas oblíbení</strong></td>
+                    </tr>
+					
+					{% for like in data.likes %}
+                    <tr>
+                        <td>{{like.nickname}}</td>
+                        <td>{{like.time_like}}</td>
+                    </tr>
+					{% endfor %}
+                </tbody>
+            </table>
+				{% endif %}
+        </div>
+        </div>
+        
+    </article>
+{% endblock %}

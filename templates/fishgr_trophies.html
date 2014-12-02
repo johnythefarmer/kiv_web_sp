@@ -1,0 +1,12 @@
+{% extends "trophies.html" %}
+
+{% block title %}Úlovky z revíru {{data.revir.nazev}}{% endblock %}
+
+
+{% block heading %}
+<h2>Úlovky z revíru {{data.revir.nazev}}</h2>
+{% endblock %}
+
+{% block emptyTrophies %}
+	<span>Z tohoto revíru ještě nebyl nahrán žádný úlovek.</span>
+{% endblock %}

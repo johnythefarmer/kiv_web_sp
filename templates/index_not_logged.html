@@ -1,0 +1,16 @@
+{% extends "basic_not_logged.html" %}
+{% block title %}Registrace{% endblock %}
+{% block content %}
+    <article>
+        {% if msg != false %}
+        <div class="alert alert-success alert-dismissible" role="alert">{{msg}}<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only"></div>
+        {% endif %}
+        <h1>Nadpis 1</h1>
+        <p>Summis o proident se nulla. Lorem praetermissum senserit sint quibusdam. De iis 
+            nisi commodo. Deserunt magna mandaremus nostrud. Singulis irure quis do quem, 
+            incididunt consectetur ad iudicem. Iudicem se possumus ubi si esse te illum, te 
+            ut quem varias noster, ullamco sed mandaremus. Iis veniam eiusmod aliquip hic 
+            sint quibusdam si noster velit, aut do sint probant est sunt nam pariatur. 
+            Ullamco ita sint.</p>
+    </article>
+			{% endblock %}

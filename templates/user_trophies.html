@@ -1,0 +1,13 @@
+{% extends "trophies.html" %}
+
+{% block title %}Úlovky uživatele {{data.uData.nick}}{% endblock %}
+
+
+{% block heading %}
+<h2>Úlovky uživatele {{data.uData.nick}}</h2>
+        <img class="img-responsive thumbnail" src="/public/img/profile-pic/{{data.uData.img}}"/>
+{% endblock %}
+
+{% block emptyTrophies %}
+	<span>Tento uživatel ještě nenahrál žádný úlovek.</span>
+{% endblock %}

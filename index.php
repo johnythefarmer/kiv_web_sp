@@ -18,10 +18,6 @@
             require_once $fileModel;
         }
     }
-    session_start();
-    $_SESSION["nick"] = "user";
-    $_SESSION["pwd"] = "pwd";
-
 
     spl_autoload_register('autoloader');
   

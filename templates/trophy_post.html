@@ -1,0 +1,58 @@
+{% extends "basic_template.html" %}
+{% block title %}Nahrání úlovku{% endblock %}
+
+
+{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+	<article>
+        <h2>Nahrání úlovku</h2>
+        <form role="form" enctype="multipart/form-data" action="/trophy" method="POST">
+        <div class="form-group">
+          <label for="druh">Druh:<span class="red">*</span></label>
+            <select class="form-control" name="druh" id="druh">
+                {% for druh in data.druh %}
+                    <option value="{{druh.id}}">{{druh.nazev}}</option>
+                {% endfor %}
+                <!--<option value="1">Kapr Obecný</option>
+                <option value="2">Štika Obecná</option>
+                <option value="3">Candát Obecný</option>
+                <option value="4">Pstruh potoční</option>-->
+            </select> 
+        </div>
+        <div class="form-group">
+          <label for="velikost">Velikost:<span class="red">*</span></label>
+          <input type="number" step="any" min="0" class="form-control" id="velikost" name="velikost" placeholder="Zadejte velikost v cm" required/>
+        </div>
+        <div class="form-group">
+          <label for="vaha">Váha:<span class="red">*</span></label>
+          <input type="number" step="any" min="0" class="form-control" id="vaha" name="vaha" placeholder="Zadejte váhu v kg"  required/>
+        </div>
+        <div class="form-group">
+          <label for="datum">Datum chycení:</label>
+          <input type="date" class="form-control" id="datum" max="{{ 'now'|date('Y-m-d') }}" name="datum" placeholder="Zadejte datum chycení" />
+        </div>
+        <div class="form-group">
+            <label for="revir">Revír chycení<span class="red">*</span></label>
+          <select class="form-control" name="revir" id="revir">
+                <!--<option value="1">Radbuza 3A</option>
+                <option value="2">Mže 5B</option>
+                <option value="3">Klabavka 13</option>
+                <option value="4">Mže 4</option>-->
+              {% for revir in data.revir %}
+                    <option value="{{revir.id}}">{{revir.nazev}}</option>
+              {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="file-choose">Obrázek úlovku<span class="red">*</span></label>
+          <input type="file" class="form-control" id="file-choose" name="file-choose" required/>
+        </div>
+        <button type="submit" class="btn btn-primary">Nahrát</button>
+            <p><span class="red">*</span> Povinný údaj</p>
+        </form>
+    </article>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "basic_template.html" %}
+{% block title %}Profil{% endblock %}
+
+
+{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<article>
+        <div id="profil">
+            <img class="img-responsive thumbnail" src="/public/img/mo/{{data.mo.img}}"/>
+            <h1>{{data.mo.nazev}}</h1>
+            <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                        <td>Web</td>
+                        <td><a href="{{data.mo.web}}">{{data.mo.web}}</a></td>
+                    </tr>
+                  </tbody>
+            </table>
+			
+			<h2>Revíry spadající pod tuto MO:</h2>
+			{% if data.reviry is empty%}
+                 <span>Pod tuto MO nespadá žádný revír. Zatím...</span>
+            {% else %}
+				<table class="table table-striped">
+                  <tbody>
+					  <tr>
+					  	<td>Číslo revíru</td>
+						<td>Název</td>
+					  </tr>
+					{% for revir in data.reviry %}
+                    <tr>
+                        <td>{{revir.id}}</td>
+                        <td><a href="/mo/fishground/{{revir.id}}">{{revir.nazev}}</a></td>
+                    </tr>
+					{% endfor %}
+                  </tbody>
+            </table>
+            {% endif %}
+			
+            <p><a href="/mo/trophies/{{data.mo.id}}">Všechny úlovky</a></p>
+            <h2>Nejlepší úlovek</h2>
+            {% if data.trophy is empty%}
+                 <span>Tento uživatel ještě nenahrál žádný úlovek.</span>
+            {% else %}
+				<span ng-app = "app">
+					{% import "trophy_macro.html" as trophyMac %}
+					{{trophyMac.trophyNormal(data.trophy, data.user.id)}}
+					<script>
+						angular.module('app', [])
+						{{trophyMac.angularTrophy(data.trophy)}}
+						;
+					</script>
+				</span>
+            {% endif %}
+        </div>
+        
+    </article>
+{% endblock %}
