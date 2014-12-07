@@ -24,8 +24,8 @@
                     </tr>
                   </tbody>
                 </table>
-                <span ng-controller="buttonCont{{trophy.id}}">
-                <button type="button" class="btn btn-primary" ng-click="like({{userId}},{{trophy.id}})"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                <span data-ng-controller="buttonCont{{trophy.id}}">
+                <button type="button" class="btn btn-primary" data-ng-click="like({{userId}},{{trophy.id}})"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
                 <span>Toto se líbí {{'{{likeCount}}'}} uživatelům</span>
 				</span>
             </div>

@@ -20,32 +20,39 @@
     }
 
     spl_autoload_register('autoloader');
+	require_once("/config/conf.php");/*
+	require_once("/lib/Controller.php");*/
   
     $url = isset($_GET['url'])? $_GET['url'] : 'index';
     $url = rtrim($url, '/');
     $url = explode('/',$url);
-    
-    $file = 'controller/' . $url[0] . '.php';
-    
-    if(!file_exists($file)){
+
+    if(!checkController($url[0])){
         $controller = new Error("Zadaná stránka neexistuje!");
         $controller->index();
         return false;
     }
-    
+
     $controller = new $url[0];
     if(isset($url[2])){
-        if(method_exists($controller, $url[1])){
-            $controller->$url[1]($url[2]);
-        }else {
-            $controller = new Error("Zadaná stránka neexistuje");
-            $controller->index();
-        }
+         if (method_exists($controller, $url[1])){
+                $reflection = new ReflectionMethod($controller, $url[1]);
+                if($reflection->isPublic() && $url[1] != "__construct"){
+                    $controller->$url[1]($url[2]);
+                }else {
+                    $controller = new Error("Zadaná stránka neexistuje");
+                    $controller->index();
+                }
+            } else {
+                $controller = new Error("Zadaná stránka neexistuje");
+                $controller->index();
+            }
+            return false;
         return false;
     }else if(isset($url[1])){
             if (method_exists($controller, $url[1])){
                 $reflection = new ReflectionMethod($controller, $url[1]);
-                if($reflection->isPublic()){
+                if($reflection->isPublic() && $url[1] != "__construct"){
                     $controller->$url[1]();
                 }else {
                     $controller = new Error("Zadaná stránka neexistuje");
@@ -60,6 +67,10 @@
     }
     
     $controller->index();
+
+	function checkController($url){
+		return file_exists('controller/' . $url . '.php') && is_subclass_of($url, "Controller");
+	}
 
     /*require_once 'Twig/lib/Twig/Autoloader.php';
     Twig_Autoloader::register();

@@ -1,0 +1,48 @@
+{% extends "basic_template.html" %}
+
+{% block title %}Administrace{{data.uData.nick}}{% endblock %}
+
+
+{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <article data-ng-app="admin" data-ng-controller="adminCont" id="wide">
+		{% import "adm_macro.html" as admMac %}
+		{% if data.page == 'fsg' %}
+		{{admMac.admFsg()}}
+		{% elseif data.page == 'mo' %}
+		{{admMac.admMO()}}
+		{% elseif data.page == 'users' %}
+		{{admMac.admUsers()}}
+		{% elseif data.page == 'rivers' %}
+		{{admMac.admRivers()}}
+		{% elseif data.page == 'species' %}
+		{{admMac.admSpecies()}}
+		{% elseif data.page == 'trophies' %}
+		{{admMac.admTrophies()}}
+		{% endif %}
+        
+		<script>
+			angular.module('admin', [])
+				.controller('adminCont', ['$scope', '$http', function($scope, $http) {
+					{% import "ang_macro.html" as angMac %}
+					{% if data.page == 'fsg' %}
+					{{angMac.admFsg("/lib/admin/fsg.php")}}
+					{% elseif data.page == 'mo' %}
+					{{angMac.admMO("/lib/admin/mo.php")}}
+					{% elseif data.page == 'users' %}
+					{{angMac.admUsers("/lib/admin/users.php")}}
+					{% elseif data.page == 'rivers' %}
+					{{angMac.admRivers("/lib/admin/rivers.php")}}
+					{% elseif data.page == 'species' %}
+					{{angMac.admSpecies("/lib/admin/species.php")}}
+					 {% elseif data.page == 'trophies' %}
+					{{angMac.admTrophies("/lib/admin/trophies.php")}}
+					{% endif %}
+			}]);
+		</script>
+		
+    </article>
+{% endblock %}

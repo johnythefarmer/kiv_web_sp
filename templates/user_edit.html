@@ -1,0 +1,49 @@
+{% extends "basic_template.html" %}
+{% block title %}Editace uživatele{% endblock %}
+
+{% block content %}
+	<article>
+        <h1>Editace uživatele</h1>
+        <form role="form" id="edit-form" enctype="multipart/form-data" action="/user/edit" method="POST">
+        <div class="form-group">
+          <label for="nickname">Přezdívka:</label>
+          <input type="text" class="form-control" id="nickname" value="{{data.user.nick}}" name="nicknameEdit" placeholder="Zadejte přezdívku" disabled/>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:<span class="red">*</span></label>
+          <input type="email" class="form-control" id="email" value="{{data.user.email}}" name="emailEdit" placeholder="Zadejte email" required/>
+        </div>
+        <div class="form-group">
+          <label for="first-name">Jméno:</label>
+          <input type="text" class="form-control" id="first-name" value="{{data.user.firstName}}" name="first-nameEdit" placeholder="Zadejte jméno" />
+        </div>
+        <div class="form-group">
+          <label for="last-name">Příjmení:</label>
+          <input type="text" class="form-control" id="last-name" value="{{data.user.lastName}}" name="last-nameEdit" placeholder="Zadejte příjmení" />
+        </div>
+        <div class="form-group">
+          <label for="web">Web:</label>
+          <input type="text" class="form-control" id="web" value="{{data.user.web}}" name="webEdit" placeholder="Zadejte webovou stránku">
+        </div>
+        <div class="form-group">
+            <label for="mo">Místní organizace:<span class="red">*</span></label>
+            <select class="form-control" name="moEdit" id="mo">
+                {% for mo in data.mo %}
+					{% if mo.id == data.user.moId %}
+						<option value="{{mo.id}}" selected>{{mo.nazev}}</option>
+					{% else %}
+						<option value="{{mo.id}}">{{mo.nazev}}</option>
+					{% endif %}
+                    
+                {% endfor %}
+            </select>    
+        </div>
+        <div class="form-group">
+          <label for="file-choose">Profilový obrázek: (v poměru 1:1)</label>
+          <input type="file" class="form-control" id="file-choose" name="file-chooseEdit" />
+        </div>
+        <button type="submit" class="btn btn-primary">Upravit</button>
+            <p><span class="red">*</span> Povinný údaj</p>
+        </form>
+    </article>
+{% endblock %}

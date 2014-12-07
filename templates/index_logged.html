@@ -8,19 +8,19 @@
 
 
 {% block content %}
-<article ng-app = "app">
-        <h2>Nejnovější úlovky</h2>
-        {% import "trophy_macro.html" as trophyMac %}
-        {% for trophy in data.trophies %}
-            {{trophyMac.trophyNormal(trophy, data.user.id)}}
-        {% endfor %}
-		
-		<script>
-			angular.module('app', [])
+	<article data-ng-app = "app">
+			<h1>Nejnovější úlovky</h1>
+			{% import "trophy_macro.html" as trophyMac %}
 			{% for trophy in data.trophies %}
-            {{trophyMac.angularTrophy(trophy)}}
-        	{% endfor %}
-			;
-		</script>
-    </article>
+				{{trophyMac.trophyNormal(trophy, data.user.id)}}
+			{% endfor %}
+
+			<script>
+				angular.module('app', [])
+				{% for trophy in data.trophies %}
+				{{trophyMac.angularTrophy(trophy)}}
+				{% endfor %}
+				;
+			</script>
+	</article>
 {% endblock %}

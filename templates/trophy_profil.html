@@ -4,9 +4,13 @@
 {% block content %}
 	<article>
         <div class="trophy">
-            <h2>{{data.trophy.rod}} {{data.trophy.druh}} - {{data.trophy.velikost}}cm</h2>
+            <h1>{{data.trophy.rod}} {{data.trophy.druh}} - {{data.trophy.velikost}}cm
+			{% if data.canEdit == true %}
+                <a href="/trophy/edit/{{data.trophy.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+            {% endif %}
+			</h1>
             
-            <img src="/public/img/trophy/{{data.trophy.img}}" class="thumbnail img-responsive" />
+            <img src="/public/img/trophy/{{data.trophy.img}}" class="thumbnail img-responsive" alt="obrazek ulovku"/>
             <div>
                 <table class="table table-striped">
                   <tbody>
@@ -20,7 +24,7 @@
                       <td>Váha</td>
                       <td>{{data.trophy.vaha}}kg</td>
                       <td>Revír</td>
-                      <td>{{data.trophy.revir}}</td>
+                      <td><a href = "/mo/fishground/{{data.trophy.revirId}}">{{data.trophy.revir}}</a></td>
                     </tr>
                     <tr>
                         <td colspan="2">Trofejní koeficient</td>

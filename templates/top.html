@@ -1,6 +1,6 @@
 {% extends "basic_template.html" %}
 
-{% block title %}Profil{% endblock %}
+{% block title %}TOP 10{% endblock %}
 
 
 {% block scripts %}
@@ -9,34 +9,34 @@
 
 {% block content %}
 <article>
-        <h2>TOP 10</h2>
-        <div ng-app="ThrophyApp" ng-controller="TrophyController">
+        <h1>TOP 10</h1>
+        <div data-ng-app="ThrophyApp" data-ng-controller="TrophyController">
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                 Časový rozsah
                 <span class="caret"></span>
             </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="day()">Den</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="week()">Týden</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="month()">Měsíc</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="year()">Rok</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" data-ng-click="day()">Den</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" data-ng-click="week()">Týden</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" data-ng-click="month()">Měsíc</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="" data-ng-click="year()">Rok</a></li>
           </ul>
         </div>
         
         
-        
-            <div ng-repeat="x in trophies">
+        	<p data-ng-hide="trophies.length || !show">V tomto časovém rozsahu ještě nebyly nahrány žádné úlovky.</p>
+            <div data-ng-repeat="x in trophies">
                 <div class="trophy row">
-                    <a href = "/trophy/id/{{ '{{x.id}}' }}" ><h3>{{ '{{x.index + 1}}. místo: {{x.rod}} {{x.druh}} - {{x.velikost}}cm' }}</h3></a>
+                    <a data-ng-href = "/trophy/id/{{ '{{x.id}}' }}" ><h3>{{ '{{x.index + 1}}. místo: {{x.rod}} {{x.druh}} - {{x.velikost}}cm' }}</h3></a>
 
-                    <img ng-src="/public/img/trophy/{{ '{{x.img}}' }}" class="col-md-4 thumbnail img-responsive" />
+                    <img src="/public/img/logo.png" data-ng-src="/public/img/trophy/{{ '{{x.img}}' }}" class="col-md-4 thumbnail img-responsive" alt="Obrazek ulovku"/>
                     <div class="col-md-8">
                         <table class="table table-striped">
                           <tbody>
                             <tr>
                               <td>Lovec</td>
-                              <td><span class="username"><a href="/user/id/{{ '{{x.lovecId}}' }}">{{ '{{x.lovec}}' }}</a></span></td>
+                              <td><span class="username"><a data-ng-href="/user/id/{{ '{{x.lovecId}}' }}">{{ '{{x.lovec}}' }}</a></span></td>
                               <td>Datum</td>
                               <td>{{ '{{x.datum}}' }}</td>
                             </tr>
@@ -44,7 +44,7 @@
                               <td>Váha</td>
                               <td>{{ '{{x.vaha}}' }}kg</td>
                               <td>Revír</td>
-                              <td><a href="/mo/fishground/{{ '{{x.revirId}}' }}">{{ '{{x.revir}}' }}</a></td>
+                              <td><a data-ng-href="/mo/fishground/{{ '{{x.revirId}}' }}">{{ '{{x.revir}}' }}</a></td>
                             </tr>
                             <tr>
                                 <td colspan="2">Trofejní koeficient</td>
@@ -52,7 +52,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <button type="button" ng-click="like(x.id, x.index)"class="btn btn-primary"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
+                        <button type="button" data-ng-click="like(x.id, x.index)" class="btn btn-primary"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button>
                         <span>Toto se líbí {{ '{{trophies[x.index].like}}' }} uživatelům</span>
                     </div>
                 </div>
@@ -62,23 +62,29 @@
             <script>
                 angular.module('ThrophyApp', [])
                     .controller('TrophyController', ['$scope', '$http', function($scope, $http) {
-                        $scope.trophies = [];
+                        $scope.show = false;
+						$scope.trophies = [];
                         
                         $scope.day = function() {
+							
                             document.getElementById("dropdownMenu1").innerHTML="Den <span class='caret'></span>";
-                            $http.post('/lib/topTrophy.php', {'duration' : 'day'}).success(function(response) {/*alert(response);*/$scope.trophies = response;});
+                            $http.post('/lib/topTrophy.php', {'duration' : 'day'}).success(function(response) {$scope.trophies = response;});
+							$scope.show = true;
                         };
                         $scope.week = function() {
                             document.getElementById("dropdownMenu1").innerHTML="Týden <span class='caret'></span>";
                             $http.post('/lib/topTrophy.php', {'duration' : 'week'}).success(function(response) {$scope.trophies = response;});
+							$scope.show = true;
                         };
                         $scope.month = function() {
                             document.getElementById("dropdownMenu1").innerHTML="Měsíc <span class='caret'></span>";
                             $http.post('/lib/topTrophy.php', {'duration' : 'month'}).success(function(response) {$scope.trophies = response;});
+							$scope.show = true;
                         };
                         $scope.year = function() {
                             document.getElementById("dropdownMenu1").innerHTML="Rok <span class='caret'></span>";
                             $http.post('/lib/topTrophy.php', {'duration' : 'year'}).success(function(response) {$scope.trophies = response;});
+							$scope.show = true;
                         };
 						
 						$scope.like = function($trophyId, $index){

@@ -3,7 +3,7 @@
 {% block content %}
     <article>
         
-        <h2>Registrace</h2>
+        <h1>Registrace</h1>
         <form role="form" id="register-form" enctype="multipart/form-data" action="/register" method="POST">
         <div class="form-group">
           <label for="nickname">Přezdívka:<span class="red">*</span></label>
@@ -59,12 +59,12 @@
 			var form2 = document.getElementById("login-form2");
             
             $("#register-form").submit(function( event ) {
-                var p = document.createElement("input");
+                var pHash = document.createElement("input");
                 var pwd = document.getElementById('pwd');
-                    form.appendChild(p);
-                    p.name = "p";
-                    p.type = "hidden";
-                    p.value = md5(pwd.value);
+                    form.appendChild(pHash);
+                    pHash.name = "pHash";
+                    pHash.type = "hidden";
+                    pHash.value = md5(pwd.value);
                     pwd.value = "";
                     document.getElementById('pwdCheck').value = "";
                 return true;

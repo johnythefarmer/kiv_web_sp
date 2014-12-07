@@ -30,10 +30,11 @@
 			{% block header %}
 			<form class="navbar-form navbar-right" id="login-form" action="/login" method="POST" role="form">
             <div class="form-group">
-              <input type="text" name="nickname" id="nicknameLogin" required placeholder="Přezdívka" class="form-control">
+              <input type="text" name="nickname" id="nicknameLogin" required placeholder="Přezdívka" class="form-control" />
             </div>
             <div class="form-group">
-              <input type="password" name="pwd" id="pwdLogin" required placeholder="Heslo" class="form-control">
+              <input type="password" name="pwd" id="pwdLogin" required placeholder="Heslo" class="form-control" />
+				<input type="password" name="p" id="p" hidden/>
             </div>
             <button type="submit" class="btn btn-success">Přihlásit se</button>
               <a href="/register" class="btn btn-primary">Registrovat</a>
@@ -42,11 +43,8 @@
             var form = document.getElementById('login-form');
             
             $("#login-form").submit(function( event ) {
-                var p = document.createElement("input");
+                var p = document.getElementById('p');
                 var pwd = document.getElementById('pwdLogin');
-                    form.appendChild(p);
-                    p.name = "p";
-                    p.type = "hidden";
                     p.value = md5(pwd.value);
                     pwd.value = "";
                 return true;

@@ -17,6 +17,7 @@
 
 	$id = -1;
     spl_autoload_register('autoloader');
+	require_once "../config/conf.php";
 	$userMod = new UserModel();
 	if (session_status() == PHP_SESSION_NONE) {
                 session_start();
@@ -41,17 +42,14 @@
 				header("Content-type:application/json"); 
 				echo json_encode(array('likeCount' => count($trophyMod->getAllLikes($request->trophyId))));
 			}else{
-				header("Content-type:application/json"); 
-				echo json_encode(array('likeCount' => 0));
+				echo "Neopravneny pristup!";
 			}
 		}else{
-			header("Content-type:application/json"); 
-			echo json_encode(array('likeCount' => 0));
+			echo "Neopravneny pristup!";
 		}
 		
 	}else {
-		header("Content-type:application/json"); 
-		echo json_encode(array('likeCount' => 0));
+		echo "Neopravneny pristup!";
 	}
 
 	

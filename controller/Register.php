@@ -48,7 +48,7 @@
                 $email = $_POST['email'];
                 $firstName = $_POST['first-name'];
                 $lastName = $_POST['last-name'];
-                $pwd = $_POST['p'];
+                $pwd = $_POST['pHash'];
                 $web = $_POST['web'];
                 $mo = $_POST['mo'];
                 $img = $this->uploadImage();

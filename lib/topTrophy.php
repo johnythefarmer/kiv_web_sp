@@ -17,6 +17,7 @@
 
 	$id = -1;
     spl_autoload_register('autoloader2');
+	require_once "../config/conf.php";
 	$userMod = new UserModel();
 	if (session_status() == PHP_SESSION_NONE) {
                 session_start();

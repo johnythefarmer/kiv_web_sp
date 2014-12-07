@@ -1,0 +1,374 @@
+{% macro admFsg() %}
+<h1>Administrace - Revíry</h1>
+<table id="adminTab" class="table table-striped">
+	<thead>
+		<tr>
+			<td><strong>ID</strong></td>
+			<td><strong>Řeka</strong></td>
+			<td><strong>Číslo</strong></td>
+			<td><strong>Podrevír</strong></td>
+			<td><strong>MO</strong></td>
+			<td><strong>Akce</strong></td>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr data-ng-repeat="x in reviry">
+			<td>{{ '{{x.id}}' }}</td>
+			<td>{{ '{{x.reka}}' }}</td>
+			<td>{{ '{{x.cislo}}' }}</td>
+			<td>{{ '{{x.podrevir}}' }}</td>
+			<td>{{ '{{x.mo}}' }}</td>	
+			<td>
+				<a href="" data-ng-click="editShow(x)"><span class = "glyphicon glyphicon-pencil"></span></a>
+				<a href="" data-ng-click="delete(x)"><span class = "glyphicon glyphicon-remove red"></span></a>
+			</td>	
+		</tr>
+	</tbody>
+
+</table>
+
+<button class="btn btn-primary" data-ng-click="createShow()">Vytvořit nový revír</button>
+<div data-ng-hide="!showEdit">
+	<h2>Editace</h2>
+	<p>(<span class="red">*</span>Ponecháním prázdného výběru zůstanou hodnoty nepozměněny)</p>
+	<form role="form">
+		<div class="form-group">
+		  <label for="idEdit">ID:</label>
+		  <input type="text" data-ng-model="revirEdit.id" class="form-control" id="idEdit"
+				 name="id" placeholder="Zadejte ID Revíru." required disabled/>
+		</div>
+		<div class="form-group">
+		  <label for="rekaEdit">Řeka:<span class="red">*</span></label>
+			<select class="form-control" name="reka" data-ng-model="revirEdit.rekaId" id="rekaEdit">
+				<option data-ng-value="revirEdit.rekaId" >Původní hodnota: {{ '{{revirEdit.reka}}' }}</option>
+				<option data-ng-repeat="y in reky" data-ng-value="y.id">{{ '{{y.nazev}}' }}</option>
+			</select> 
+		</div>
+		<div class="form-group">
+		  <label for="cisloEdit">Číslo revíru:</label>
+		  <input type="text" class="form-control" data-ng-model="revirEdit.cislo"
+				 id="cisloEdit" name="cislo" placeholder="Zadejte číslo revíru" required/>
+		</div>
+		<div class="form-group">
+		  <label for="podrevirEdit">Podrevír</label>
+		  <input type="text" class="form-control" data-ng-model="revirEdit.podrevir"
+				 id="podrevirEdit" name="podrevir" placeholder="Zadejte ID podrevíru"
+				 required disabled/>
+		</div>
+		<div class="form-group">
+			<label for="moEdit">Místní Organizace:<span class="red">*</span></label>
+		  <select class="form-control" data-ng-model="revirEdit.moId" name="mo" id="moEdit">
+			  <option data-ng-value="revirEdit.moId" >Původní hodnota: {{ '{{revirEdit.mo}}' }}</option>
+			  <option data-ng-repeat="z in mo" data-ng-value="z.id">{{ '{{z.nazev}}' }}</option>
+			</select>
+		</div>
+		<button type="submit" data-ng-click = "edit(revirEdit)" class="btn btn-primary">Upravit</button>
+	</form>
+
+</div>
+<div data-ng-hide="!showCreate">
+	<h2>Vytváření nového revíru</h2>
+	<form role="form">
+		<div class="form-group">
+		  <label for="idCreate">ID:</label>
+		  <input type="number" data-ng-model="revir.id" min="0" class="form-control"
+				 id="idCreate" name="id" placeholder="Zadejte ID Revíru." required/>
+		</div>
+		<div class="form-group">
+		  <label for="rekaCreate">Řeka:</label>
+			<select class="form-control" name="reka" data-ng-model="revir.rekaId" id="rekaCreate">
+				<option value="0">Zadejte řeku</option>
+				<option data-ng-repeat="y in reky" data-ng-value="y.id">{{ '{{y.nazev}}' }}</option>
+			</select> 
+		</div>
+		<div class="form-group">
+		  <label for="cisloCreate">Číslo revíru:</label>
+		  <input type="text" class="form-control" data-ng-model="revir.cislo"
+				 id="cisloCreate" name="cisloCreate" placeholder="Zadejte číslo revíru" required/>
+		</div>
+		<div class="form-group">
+		  <label for="podrevirCreate">Podrevír</label>
+		  <input type="number" min="0" class="form-control"
+				 data-ng-model="revir.podrevir" id="podrevirCreate"
+				 name="podrevir" placeholder="Zadejte ID podrevíru"  required/>
+		</div>
+		<div class="form-group">
+			<label for="moCreate">Místní Organizace:</label>
+		  <select class="form-control" data-ng-model="revir.moId" name="mo" id="moCreate">
+			  <option value="0">Zadejte MO</option>
+			  <option data-ng-repeat="z in mo" data-ng-value="z.id">{{ '{{z.nazev}}' }}</option>
+		</select>
+		</div>
+		<button type="submit" data-ng-click = "create(revir)" class="btn btn-primary">Nahrát</button>
+
+	</form>
+</div>
+{% endmacro %}
+
+{% macro admRivers() %}
+<h1>Administrace - Řeky</h1>
+		
+	<table id="adminTab" class="table table-striped">
+		<thead>
+			<tr>
+				<td><strong>ID</strong></td>
+				<td><strong>Název</strong></td>
+				<td><strong>Akce</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr data-ng-repeat="x in reky">
+				<td>{{ '{{x.id}}' }}</td>
+				<td>{{ '{{x.nazev}}' }}</td>
+				<td>
+					<a href="" data-ng-click="editShow(x)"><span class = "glyphicon glyphicon-pencil"></span></a>
+					<a href="" data-ng-click="delete(x)"><span class = "glyphicon glyphicon-remove red"></span></a>
+				</td>	
+			</tr>
+		</tbody>
+
+	</table>
+
+	<button class="btn btn-primary" data-ng-click="createShow()">Vytvořit novou řeku</button>
+	<div data-ng-hide="!showEdit">
+		<h2>Editace</h2>
+		<form role="form">
+			<div class="form-group">
+			  <label for="nazevEdit">Název řeky:</label>
+			  <input type="text" class="form-control" data-ng-model="rekaEdit.nazev"
+					 id="nazevEdit" name="nazevEdit" placeholder="Zadejte název řeky" required/>
+			</div>
+			<button type="submit" data-ng-click = "edit(rekaEdit)" class="btn btn-primary">Upravit</button>
+		</form>
+
+	</div>
+	<div data-ng-hide="!showCreate">
+		<h2>Vytváření nové řeky</h2>
+		<form role="form">
+			<div class="form-group">
+			  <label for="nazevCreate">Název řeky:</label>
+			  <input type="text" class="form-control" data-ng-model="reka.nazev"
+					 id="nazevCreate" name="nazevCreate" placeholder="Zadejte název řeky" required/>
+			</div>
+			<button type="submit" data-ng-click = "create(reka)" class="btn btn-primary" formnovalidate>Nahrát</button>
+
+		</form>
+	</div>
+{% endmacro %}
+
+{% macro admUsers() %}
+<h1>Administrace - Uživatelé</h1>
+		
+	<table id="adminTab" class="table table-striped">
+		<thead>
+			<tr>
+				<td><strong>ID</strong></td>
+				<td><strong>Přezdívka</strong></td>
+				<td><strong>Jméno</strong></td>
+				<td><strong>Příjmení</strong></td>
+				<td><strong>Email</strong></td>
+				<td><strong>Web</strong></td>
+				<td><strong>MO</strong></td>
+				<td><strong>Admin</strong></td>
+				<td><strong>Akce</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr data-ng-repeat="x in uzivatele">
+				<td>{{ '{{x.id}}' }}</td>
+				<td>{{ '{{x.nick}}' }}</td>
+				<td>{{ '{{x.firstName}}' }}</td>
+				<td>{{ '{{x.lastName}}' }}</td>
+				<td>{{ '{{x.email}}' }}</td>
+				<td>{{ '{{x.web}}' }}</td>
+				<td>{{ '{{x.mo}}' }}</td>
+				<td>{{ '{{x.isAdmin}}' }}</td>
+				<td>
+					<a href="" data-ng-click="makeAdmin(x)">Uděl admin. práva</a>
+					<a href="" data-ng-click="delete(x)"><span class = "glyphicon glyphicon-remove red"></span></a>
+				</td>	
+			</tr>
+		</tbody>
+
+	</table>
+
+{% endmacro %}
+
+{% macro admTrophies() %}
+<h1>Administrace - Úlovky</h1>
+		
+	<table id="adminTab" class="table table-striped">
+		<thead>
+			<tr>
+				<td><strong>ID</strong></td>
+				<td><strong>Lovec</strong></td>
+				<td><strong>Druh</strong></td>
+				<td><strong>Rod</strong></td>
+				<td><strong>Velikost</strong></td>
+				<td><strong>Váha</strong></td>
+				<td><strong>Datum</strong></td>
+				<td><strong>Revír</strong></td>
+				<td><strong>Koeficient</strong></td>
+				<td><strong>Akce</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr data-ng-repeat="x in ulovky">
+				<td>{{ '{{x.id}}' }}</td>
+				<td>{{ '{{x.lovec}}' }}</td>
+				<td>{{ '{{x.druh}}' }}</td>
+				<td>{{ '{{x.rod}}' }}</td>
+				<td>{{ '{{x.velikost}}' }}</td>
+				<td>{{ '{{x.vaha}}' }}</td>
+				<td>{{ '{{x.datum}}' }}</td>
+				<td>{{ '{{x.revir}}' }}</td>
+				<td>{{ '{{x.koef}}' }}</td>
+				<td>
+					<a href="" data-ng-click="delete(x)"><span class = "glyphicon glyphicon-remove red"></span></a>
+				</td>	
+			</tr>
+		</tbody>
+
+	</table>
+{% endmacro %}
+
+
+{% macro admMO() %}
+<h1>Administrace - Místní organizace</h1>
+		
+	<table id="adminTab" class="table table-striped">
+		<thead>
+			<tr>
+				<td><strong>ID</strong></td>
+				<td><strong>Název</strong></td>
+				<td><strong>Web</strong></td>
+				<td><strong>Akce</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr data-ng-repeat="x in mo">
+				<td>{{ '{{x.id}}' }}</td>
+				<td>{{ '{{x.nazev}}' }}</td>
+				<td>{{ '{{x.web}}' }}</td>
+				<td>
+					<a data-ng-href="/mo/edit/{{ '{{x.id}}' }}"><span class = "glyphicon glyphicon-pencil"></span></a>
+					<a href="" data-ng-click="delete(x)"><span class = "glyphicon glyphicon-remove red"></span></a>
+				</td>	
+			</tr>
+		</tbody>
+
+	</table>
+
+	<div>
+		<h2>Vytváření nové MO</h2>
+		<form role="form">
+			<div class="form-group">
+			  <label for="nazevCreate">Název MO:</label>
+			  <input type="text" class="form-control" data-ng-model="moCreate.nazev"
+					 id="nazevCreate" name="nazevCreate" placeholder="Zadejte název MO" required/>
+			</div>
+			<div class="form-group">
+			  <label for="webCreate">Web:</label>
+			  <input type="text" class="form-control" data-ng-model="moCreate.web"
+					 id="webCreate" name="webCreate" placeholder="Zadejte webové stránky" required/>
+			</div>
+			<button type="submit" data-ng-click = "create(moCreate)" class="btn btn-primary" formnovalidate>Nahrát</button>
+
+		</form>
+	</div>
+{% endmacro %}
+
+{% macro admSpecies() %}
+<h1>Administrace - Druhy</h1>
+		
+	<table id="adminTab" class="table table-striped">
+		<thead>
+			<tr>
+				<td><strong>ID</strong></td>
+				<td><strong>Rodový název</strong></td>
+				<td><strong>Druhový název</strong></td>
+				<td><strong>Trofejní váha [kg]</strong></td>
+				<td><strong>Trofejní velikost [cm]</strong></td>
+				<td><strong>Akce</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr data-ng-repeat="x in druhy">
+				<td>{{ '{{x.id}}' }}</td>
+				<td>{{ '{{x.rod}}' }}</td>
+				<td>{{ '{{x.druh}}' }}</td>
+				<td>{{ '{{x.vahaTrofej}}' }}</td>
+				<td>{{ '{{x.velikostTrofej}}' }}</td>
+				<td>
+					<a href="" data-ng-click="editShow(x)"><span class = "glyphicon glyphicon-pencil"></span></a>
+					<a href="" data-ng-click="delete(x)"><span class = "glyphicon glyphicon-remove red"></span></a>
+				</td>	
+			</tr>
+		</tbody>
+
+	</table>
+
+	<button class="btn btn-primary" data-ng-click="createShow()">Vytvořit nový druh</button>
+		<div data-ng-hide="!showEdit">
+			<h2>Editace</h2>
+			<form role="form">
+				<div class="form-group">
+				  <label for="rodEdit">Rodový název: </label>
+				  <input type="text" class="form-control" data-ng-model="druhEdit.rod"
+						 id="rodEdit" name="rod" placeholder="Zadejte rodový název" required/>
+				</div>
+				<div class="form-group">
+				  <label for="druhEdit">Druhový název: </label>
+				  <input type="text" class="form-control" data-ng-model="druhEdit.druh"
+						 id="druhEdit" name="druh" placeholder="Zadejte druhový název" required/>
+				</div>
+				<div class="form-group">
+				  <label for="vahaTrofejEdit">Trofejní váha: </label>
+				  <input type="number" step="any" min="0" class="form-control" data-ng-model="druhEdit.vahaTrofej"
+						 id="vahaTrofejEdit" name="vahaTrofej" placeholder="Zadejte trofejní váhu"
+						 required/>
+				</div>
+				<div class="form-group">
+				  <label for="velikostTrofejEdit">Trofejní velikost: </label>
+				  <input type="number" step="any" min="0" class="form-control" data-ng-model="druhEdit.velikostTrofej"
+						 id="velikostTrofejEdit" name="velikostTrofej" placeholder="Zadejte trofejní velikost"
+						 required/>
+				</div>
+				<button type="submit" data-ng-click = "edit(druhEdit)" class="btn btn-primary" formnovalidate>Upravit</button>
+			</form>
+
+		</div>
+		<div data-ng-hide="!showCreate">
+			<h2>Vytváření nového druhu</h2>
+			<form role="form">
+				<div class="form-group">
+				  <label for="rodCreate">Rodový název: </label>
+				  <input type="text" class="form-control" data-ng-model="druh.rod"
+						 id="rodCreate" name="rod" placeholder="Zadejte rodový název" required/>
+				</div>
+				<div class="form-group">
+				  <label for="druhCreate">Druhový název: </label>
+				  <input type="text" class="form-control" data-ng-model="druh.druh"
+						 id="druhCreate" name="druh" placeholder="Zadejte druhový název" required/>
+				</div>
+				<div class="form-group">
+				  <label for="vahaTrofejCreate">Trofejní váha: </label>
+				  <input type="number" step="any" min="0" class="form-control" data-ng-model="druh.vahaTrofej"
+						 id="vahaTrofejCreate" name="vahaTrofej" placeholder="Zadejte trofejní váhu"
+						 required/>
+				</div>
+				<div class="form-group">
+				  <label for="velikostTrofejCreate">Trofejní velikost: </label>
+				  <input type="number" step="any" min="0" class="form-control" data-ng-model="druh.velikostTrofej"
+						 id="velikostTrofejCreate" name="velikostTrofej" placeholder="Zadejte trofejní velikost"
+						 required/>
+				</div>
+	<button type="submit" data-ng-click = "create(druh)" class="btn btn-primary" formnovalidate>Nahrát</button>
+
+{% endmacro %}

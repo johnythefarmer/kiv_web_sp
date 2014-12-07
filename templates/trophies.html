@@ -17,8 +17,8 @@
 			{% block emptyTrophies %}
             
 			{% endblock %}
-        {% else%}
-        <span ng-app= "app">
+        {% else %}
+        <div data-ng-app= "app">
 			{% for trophy in data.trophies %}
 				{{trophyMac.trophyNormal(trophy, data.user.id)}}
 			{% endfor %}
@@ -28,8 +28,8 @@
             {{trophyMac.angularTrophy(trophy)}}
         	{% endfor %}
 			;
-		</script>
-		</span>
+			</script>
+		</div>
 		{% endif %}
         </div>
     </article>

@@ -1,0 +1,23 @@
+{% extends "basic_template.html" %}
+{% block title %}Editace Místní organizace{% endblock %}
+
+{% block content %}
+	<article>
+        <h1>Editace Místní organizace</h1>
+        <form role="form" id="edit-form" enctype="multipart/form-data" action="/mo/edit/{{data.mo.id}}" method="POST">
+        <div class="form-group">
+          <label for="nazevEdit">Název:</label>
+          <input type="text" class="form-control" id="nazevEdit" value="{{data.mo.nazev}}" name="nazevEdit" placeholder="Zadejte přezdívku" />
+        </div>
+        <div class="form-group">
+          <label for="web">Web:</label>
+          <input type="text" class="form-control" id="web" value="{{data.mo.web}}" name="webEdit" placeholder="Zadejte webovou stránku">
+        </div>
+        <div class="form-group">
+          <label for="file-choose">Profilový obrázek: (v poměru 1:1)</label>
+          <input type="file" class="form-control" id="file-choose" name="file-chooseEdit" />
+        </div>
+        <button type="submit" class="btn btn-primary">Upravit</button>
+        </form>
+    </article>
+{% endblock %}

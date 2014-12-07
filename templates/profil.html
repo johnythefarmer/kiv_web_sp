@@ -10,10 +10,10 @@
 {% block content %}
 <article>
         <div id="profil">
-            <img class="img-responsive thumbnail" src="/public/img/profile-pic/{{data.uData.img}}"/>
+            <img class="img-responsive thumbnail" src="/public/img/profile-pic/{{data.uData.img}}" alt="avatar"/>
             <h1>{{data.uData.nick}} 
                 {% if data.canEdit == true %}
-                <a href="/profile/edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="/user/edit"><span class="glyphicon glyphicon-pencil"></span></a>
                 {% endif %}
             
             </h1>
@@ -42,7 +42,7 @@
             {% if data.trophy is empty%}
                  <span>Tento uživatel ještě nenahrál žádný úlovek.</span>
             {% else %}
-				<span ng-app = "app">
+				<div data-ng-app = "app">
 					{% import "trophy_macro.html" as trophyMac %}
 					{{trophyMac.trophyNormal(data.trophy, data.user.id)}}
 					<script>
@@ -50,7 +50,7 @@
 						{{trophyMac.angularTrophy(data.trophy)}}
 						;
 					</script>
-				</span>
+				</div>
             {% endif %}
         </div>
         

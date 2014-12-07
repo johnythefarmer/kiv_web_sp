@@ -2,6 +2,11 @@
   margin: 0px auto;
   padding: 0px;
 }
+
+#wide table{
+  width:100%;
+}
+
 nav{
   height:50px;
 }
@@ -13,14 +18,47 @@ nav{
   width:100%;
 }
 
+#admin > a{
+  padding-top:15px;
+  padding-bottom:15px;
+}
+
 #brand{
   padding-left:0px
+	  padding-right:0px;
+}
+
+#login-form input{
+	width:150px;
+}
+
+#login-form2 input{
+	width:150px;
 }
 
 .alert{
-  text-align:left;
+	text-align: left;
 }
 
+article .btn{
+  margin-bottom:15px;
+}
+
+#adminTab .glyphicon{
+  font-size:12pt;
+}
+
+article{
+  margin-bottom:80px;
+}
+
+.clickable{
+  cursor:pointer;
+}
+
+#adminTab th{
+  text-align:center;
+}
 
 #file-choose{
   padding-bottom:40px;
@@ -73,18 +111,15 @@ article form{
 
 @media (min-width: 768px){
   article{
-    width:720px;
+    width: 720px;
   }
-  
+#wide{
+	width:80%;
+}
   nav.navbar{
   padding-right:10px;
-  }
 }
-
-@media (min-width: 400px){
-  .error-img{
-    width:200px;
-  }
+  
 }
 
 .dropdown-menu{
@@ -133,6 +168,13 @@ article .dropdown{
 ul.nav{
   float:right;
 }
+
+@media (min-width: 400px){
+  .logo-img{
+    width:200px;
+  }
+}
+
 
 footer{
   background-color:#101010;

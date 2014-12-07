@@ -1,0 +1,352 @@
+{% macro admFsg(path) %}
+$scope.defaultRevir = {"id" : 0, "rekaId" : 0, "cislo" : 0, "podrevir" : 0, "moId" : 0};
+$scope.revir = angular.copy($scope.defaultRevir);
+$scope.showEdit = false;
+$scope.showCreate = true;					
+
+$http.post("{{path}}", {'method' : "select"}).success(function(response){
+	if(response.success){
+		$scope.reviry = response.reviry;
+		$scope.mo = response.mo;
+		$scope.reky = response.reky;
+	} else {
+		alert(response.message);
+		window.location.replace("/"); 
+	}
+});
+
+
+
+$scope.editShow = function($x) {
+	$scope.showCreate = false;
+	$scope.showEdit = true;
+	$scope.revirEdit = angular.copy($x);
+};
+
+$scope.edit = function($x){
+	if($x.id == null || $x.podrevir == null || $x.cislo == null || $x.rekaId == 0 || $x.moId == 0){
+		alert("nevyplněny všechny údaje");
+	}else {							
+		$http.post("{{path}}", {'method' : 'edit', 'revir' : $x}).success(function(response) {
+			if(response.success){
+				$scope.reviry = response.reviry;
+				alert(response.message);
+				$scope.showEdit = false;
+				$scope.showCreate = true;
+				$scope.revir = angular.copy($scope.defaultRevir);
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+
+$scope.createShow = function() {
+	$scope.showCreate = true;
+	$scope.showEdit = false;
+	$scope.revir = angular.copy($scope.defaultRevir);
+};
+
+$scope.delete = function($x){
+	if(confirm("Opravdu si přejete tento revír smazat?")){
+		$http.post("{{path}}", {'method' : 'delete', 'revir' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.reviry = response.reviry;
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+
+};
+
+$scope.create = function($x){
+	if($x.id == null || $x.podrevir == null || $x.cislo == null || $x.rekaId == 0 || $x.moId == 0){
+		alert("nevyplněny všechny údaje");
+	}else {							
+		$http.post("{{path}}", {'method' : 'create', 'revir' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.reviry = response.reviry;
+				$scope.revir = angular.copy($scope.defaultRevir);
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+{% endmacro %}
+
+{% macro admRivers(path) %}
+$scope.defaultReka = {"id" : 0, "nazev" : ""};
+ $scope.reka = angular.copy($scope.defaultReka);
+$scope.showEdit = false;
+$scope.showCreate = true;
+
+$http.post("{{path}}", {'method' : "select"}).success(function(response){
+	if(response.success){
+		$scope.reky = response.reky;
+	} else {
+		alert(response.message);
+		window.location.replace("/"); 
+	}
+});
+
+$scope.editShow = function($x){
+	$scope.rekaEdit = angular.copy($x);
+	$scope.showEdit = true;
+	$scope.showCreate = false;
+};
+
+$scope.createShow = function (){
+	$scope.showEdit = false;
+	$scope.showCreate = true;
+	$scope.reka = angular.copy($scope.defaultReka);
+}
+
+$scope.create = function ($x) {
+	if($x.nazev == ""){
+		alert("Musíte vyplnit název řeky");
+	}else{
+		$http.post("{{path}}", {'method' : 'create', 'reka' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.reky = response.reky;
+				$scope.reka = angular.copy($scope.defaultReka);
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+
+$scope.edit = function($x){
+	if($x.nazev == ""){
+		alert("Musíte vyplnit název řeky");
+	}else{
+		$http.post("{{path}}", {'method' : 'edit', 'reka' : $x}).success(function(response) {
+			if(response.success){
+				$scope.reky = response.reky;
+				alert(response.message);
+				$scope.showEdit = false;
+				$scope.showCreate = true;
+				$scope.rekaEdit = angular.copy($scope.defaultReka);
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+}
+
+$scope.delete = function($x){
+	if(confirm("Opravdu si přejete tuto řeku smazat?")){
+		$http.post("{{path}}", {'method' : 'delete', 'reka' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.reky = response.reky;
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+
+};
+{% endmacro %}
+
+{% macro admSpecies(path) %}
+$scope.defaultDruh = {"id" : 1, "rod" : "", "druh" : "", "vahaTrofej" : 0, "velikostTrofej" : 0};
+$scope.druh = angular.copy($scope.defaultDruh);
+$scope.showEdit = false;
+$scope.showCreate = true;
+
+$http.post("{{path}}", {'method' : "select"}).success(function(response){
+	if(response.success){
+		$scope.druhy = response.druhy;
+
+		angular.forEach($scope.druhy, function ($druh) {
+			$druh.vahaTrofej = parseFloat($druh.vahaTrofej, 10);
+			$druh.velikostTrofej = parseFloat($druh.velikostTrofej, 10);
+		});
+	} else {
+		alert(response.message);
+		window.location.replace("/"); 
+	}
+});
+
+$scope.editShow = function($x){
+	$scope.druhEdit = angular.copy($x);
+	$scope.showEdit = true;
+	$scope.showCreate = false;
+};
+
+$scope.createShow = function (){
+	$scope.showEdit = false;
+	$scope.showCreate = true;
+	$scope.druh = angular.copy($scope.defaultDruh);
+}
+
+$scope.create = function ($x) {
+	if($x.rod == "" || $x.druh == "" || $x.vahaTrofej == 0 || $.velikostTrofej == 0){
+		alert("Musíte vyplnit všechny údaje");
+	}else{
+		$http.post("{{path}}", {'method' : 'create', 'druh' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.druhy = response.druhy;
+				angular.forEach($scope.druhy, function ($druh) {
+					$druh.vahaTrofej = parseFloat($druh.vahaTrofej, 10);
+					$druh.velikostTrofej = parseFloat($druh.velikostTrofej, 10);
+				});
+				$scope.druh = angular.copy($scope.defaultDruh);
+			}else{
+				alert(response);
+			}
+		});
+	}
+};
+
+$scope.edit = function($x){
+	if($x.rod == "" || $x.druh == "" || $x.vahaTrofej == 0 || $.velikostTrofej == 0){
+		alert("Musíte vyplnit všechny údaje");
+	}else{
+		$http.post("{{path}}", {'method' : 'edit', 'druh' : $x}).success(function(response) {
+			if(response.success){
+				$scope.druhy = response.druhy;
+				angular.forEach($scope.druhy, function ($druh) {
+					$druh.vahaTrofej = parseFloat($druh.vahaTrofej, 10);
+					$druh.velikostTrofej = parseFloat($druh.velikostTrofej, 10);
+				});
+				alert(response.message);
+				$scope.showEdit = false;
+				$scope.showCreate = true;
+				$scope.druhdit = angular.copy($scope.defaultDruh);
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+
+$scope.delete = function($x){
+	if(confirm("Opravdu si přejete tento druh smazat?")){
+		$http.post("{{path}}", {'method' : 'delete', 'druh' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.druhy = response.druhy;
+				
+				angular.forEach($scope.druhy, function ($druh) {
+					$druh.vahaTrofej = parseFloat($druh.vahaTrofej, 10);
+					$druh.velikostTrofej = parseFloat($druh.velikostTrofej, 10);
+				});
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+{% endmacro %}
+
+{% macro admUsers(path) %}
+$http.post("{{path}}", {'method' : "select"}).success(function(response){
+	if(response.success){
+		$scope.uzivatele = response.uzivatele;
+	} else {
+		alert(response.message);
+		window.location.replace("/"); 
+	}
+});
+
+$scope.delete = function($x){
+	if(confirm("Opravdu si přejete smazat tohoto uživatele?")){
+		$http.post("{{path}}", {'method' : 'delete', 'uzivatel' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.uzivatele = response.uzivatele;
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+
+$scope.makeAdmin = function($x){
+	if(confirm("Opravdu si přejete udělit tomuto uživateli administrátorská práva?")){
+		$http.post("{{path}}", {'method' : 'make-admin', 'uzivatel' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.uzivatele = response.uzivatele;
+			}else{
+				alert(response);
+			}
+		});
+	}
+}
+{% endmacro %}
+
+{% macro admTrophies(path) %}
+$http.post("{{path}}", {'method' : "select"}).success(function(response){
+	if(response.success){
+		$scope.ulovky = response.ulovky;
+	} else {
+		alert(response.message);
+		window.location.replace("/"); 
+	}
+});
+
+$scope.delete = function($x){
+	if(confirm("Opravdu si přejete smazat tento ulovek?")){
+		$http.post("{{path}}", {'method' : 'delete', 'ulovek' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.ulovky = response.ulovky;
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+{% endmacro %}
+
+{% macro admMO(path) %}
+$scope.defaultMo = {"id" : 0, "nazev" : "", "web" : ""};
+ $scope.moCreate = angular.copy($scope.defaultMo);
+ 
+ $http.post("{{path}}", {'method' : "select"}).success(function(response){
+	if(response.success){
+		$scope.mo = response.mo;
+	} else {
+		alert(response.message);
+		window.location.replace("/"); 
+	}
+});
+ 
+ $scope.create = function($x){
+	if($x.nazev == null || $x.web == null){
+		alert("nevyplněny všechny údaje");
+	}else {
+		$http.post("{{path}}", {'method' : 'create', 'mo' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.mo = response.mo;
+				$scope.moCreate = angular.copy($scope.defaultMo);
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+ 
+ $scope.delete = function($x){
+	if(confirm("Opravdu si přejete smazat tuto mo?")){
+		$http.post("{{path}}", {'method' : 'delete', 'mo' : $x}).success(function(response) {
+			if(response.success){
+				alert(response.message);
+				$scope.mo = response.mo;
+			}else{
+				alert(response.message);
+			}
+		});
+	}
+};
+{% endmacro %}

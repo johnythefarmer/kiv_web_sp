@@ -10,8 +10,12 @@
 {% block content %}
 <article>
         <div id="profil">
-            <img class="img-responsive thumbnail" src="/public/img/mo/{{data.mo.img}}"/>
-            <h1>{{data.mo.nazev}}</h1>
+            <img class="img-responsive thumbnail" src="/public/img/mo/{{data.mo.img}}" alt="logo MO"/>
+            <h1>{{data.mo.nazev}}
+				{% if data.isAdmin == true %}
+					<a href="/mo/edit/{{data.mo.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+				{% endif %}
+			</h1>
             <table class="table table-striped">
                   <tbody>
                     <tr>
@@ -34,7 +38,7 @@
 					{% for revir in data.reviry %}
                     <tr>
                         <td>{{revir.id}}</td>
-                        <td><a href="/mo/fishground/{{revir.id}}">{{revir.nazev}}</a></td>
+                        <td><a href="/mo/fishground/{{revir.fullId}}">{{revir.nazev}}</a></td>
                     </tr>
 					{% endfor %}
                   </tbody>
@@ -46,7 +50,7 @@
             {% if data.trophy is empty%}
                  <span>Tento uživatel ještě nenahrál žádný úlovek.</span>
             {% else %}
-				<span ng-app = "app">
+				<div data-ng-app = "app">
 					{% import "trophy_macro.html" as trophyMac %}
 					{{trophyMac.trophyNormal(data.trophy, data.user.id)}}
 					<script>
@@ -54,7 +58,7 @@
 						{{trophyMac.angularTrophy(data.trophy)}}
 						;
 					</script>
-				</span>
+				</div>
             {% endif %}
         </div>
         
