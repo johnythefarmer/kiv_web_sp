@@ -5,7 +5,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema trophy
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `trophy` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+CREATE SCHEMA IF NOT EXISTS `trophy` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci ;
 USE `trophy` ;
 
 -- -----------------------------------------------------
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `trophy`.`topDay` (`ulovek_id` INT, `velikost` INT, `
 -- -----------------------------------------------------
 -- Placeholder table for view `trophy`.`poctyMO`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `trophy`.`poctyMO` (`mo_id` INT, `nazev` INT, `pocet_uzivatelu` INT, `pocet_ulovku` INT);
+CREATE TABLE IF NOT EXISTS `trophy`.`poctyMO` (`mo_id` INT, `nazev` INT, `count(ulovek_id)` INT);
 
 -- -----------------------------------------------------
 -- View `trophy`.`topYear`
@@ -272,7 +272,7 @@ DROP VIEW IF EXISTS `trophy`.`poctyMO` ;
 DROP TABLE IF EXISTS `trophy`.`poctyMO`;
 USE `trophy`;
 CREATE  OR REPLACE VIEW `poctyMO` AS
-SELECT mo.mo_id,mo.nazev, count(uz.user_id) as pocet_uzivatelu,  count(ul.ulovek_id) as pocet_ulovku FROM trophy.mistni_organizace mo inner join trophy.revir r on mo.mo_id = r.mo_id left join ulovek ul on ul.revir_id = r.revir_id left join trophy.uzivatel uz on uz.mo_id = mo.mo_id group by mo.mo_id order by pocet_ulovku desc, pocet_uzivatelu desc;
+select mistni_organizace.mo_id, mistni_organizace.nazev, count(ulovek_id) from mistni_organizace left join revir on revir.mo_id = mistni_organizace.mo_id left outer join ulovek on revir.revir_id = ulovek.revir_id group by mo_id;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

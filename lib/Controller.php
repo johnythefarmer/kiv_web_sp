@@ -29,7 +29,8 @@
         }    
         
         public function index(){
-            
+            $error = new Error("Tato stránka neexistuje");
+			$error->index();
         }
 
     }
