@@ -27,7 +27,7 @@
     $url = rtrim($url, '/');
     $url = explode('/',$url);
 
-    if(!checkController($url[0])){
+    if(!checkController($url[0]) || count($url) > 3){
         $controller = new Error("Zadaná stránka neexistuje!");
         $controller->index();
         return false;
